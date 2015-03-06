@@ -9,4 +9,11 @@ class AtlasController extends Controller{
 
                 $this->display();
         }
+
+        function atlasLootAdd(){
+                $lootTypes = C("LOOTTYPES");
+                //print_r($lootTypes);
+                $this->assign("LootTypes",$lootTypes);
+                $this->display();
+        }
 }

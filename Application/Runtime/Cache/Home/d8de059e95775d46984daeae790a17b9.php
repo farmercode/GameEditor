@@ -143,8 +143,8 @@ jQuery(document).ready(function(){
               <h3 class="panel-title">地图掉落</h3>
             </div>
             <div class="panel-body">
-               <a class="btn btn-warning" href="<?php echo U("Loot/lootAdd");?>" data-toggle="modal" data-target=".bs-example-modal-panel">添加地图</a>
-               <a class="btn btn-pink" href="<?php echo U("Loot/excelImport");?>" data-toggle="modal" data-target=".bs-example-modal-panel">导入地图</a>
+               <a class="btn btn-warning" href="<?php echo U("Atlas/atlasLootAdd");?>" data-toggle="modal" data-target=".bs-example-modal-panel">添加地图</a>
+               <a class="btn btn-pink" href="<?php echo U("Atlas/excelImport");?>" data-toggle="modal" data-target=".bs-example-modal-panel">导入地图</a>
             </div>
           </div><!-- panel -->
         </div><!-- col-sm-6 -->
