@@ -1,0 +1,73 @@
+<style type="text/css">
+    a .chosen-single{overflow: visible;}
+</style>
+<div class="panel panel-dark panel-alt">
+    <div class="panel-heading">
+        <div class="panel-btns">
+            <a class="panel-close" data-dismiss="modal" aria-hidden="true">&times;</a>
+        </div><!-- panel-btns -->
+        <h3 class="panel-title">发送系统邮件</h3>       
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal form-bordered" method="post" action="{:U("Manager/sendSysMail")}"> <!-- form begin -->
+        <input type="hidden" name="mid" value="{$info.mail_id}" />     
+            <div class="form-group">
+            <div class="col-sm-4 b">发送玩家:</div>            	
+            	<div class="col-sm-8">
+                {$info.CharName}
+            	</div>
+            </div>
+
+            <div class="form-group">
+            <div class="col-sm-4 b">标题:</div>             
+                <div class="col-sm-8">
+                {$info.Title}
+                </div>
+            </div>
+
+             <div class="form-group">
+            <div class="col-sm-4 b">内容:</div>             
+                <div class="col-sm-8">
+                {$info.Content}
+                </div>
+            </div>
+
+            <div class="form-group">
+            <div class="col-sm-4 b">创建时间:</div>             
+                <div class="col-sm-8">
+                {$info.CreateTime|date="y-m-d H:i:s",###}
+                </div>
+            </div>
+    
+            <div class="panel-footer" style="text-align: center;">
+              <button class="btn btn-primary">发送邮件</button>
+            </div>
+    	</form> <!-- form end -->
+    </div>
+</div>
+
+<div class="tpl" style="display: none;">
+    <div class="input-group col-sm-9 add_line">
+                <span class="input-group-addon del_new_line"><i class="glyphicon glyphicon-minus my_cursor"></i></span>
+                <div class="row">
+                    <div class="col-sm-4">
+                    <input type="text" placeholder="物品ID" class="form-control" name="mail_add[ID][]">
+                     </div>
+                  <div class="col-sm-5">
+                    <select class="form-control mb15" name="mail_add[type][]">
+                          <foreach name="lootTypes" item="t" key="typeid">
+                            <option value="{$typeid}">{$t}</option>
+                          </foreach>
+                    </select>
+                  </div>
+                  <div class="col-sm-2">
+                    <input type="text" placeholder="数量" class="form-control" name="mail_add[count][]">
+                  </div>
+                </div>
+</div>
+</div>
+<script>
+	jQuery(document).ready(function(){
+
+});
+</script>

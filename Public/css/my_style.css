@@ -1,0 +1,13 @@
+
+.small_btn{line-height: 9px;}
+/*addRole*/
+.checkbox_inline{float: left;margin-right: 10px};
+/*headerbar*/
+.header_left{float: left ;padding-top: 5px;}
+
+/*player*/
+.b{font-weight: bold;}
+.my_line{margin-top: 8px;}
+.my_cursor{cursor: pointer;}
+.add_line{margin-left: 142px;margin-top: 5px;}
+.small_head{height: 32px;width: 32px;}

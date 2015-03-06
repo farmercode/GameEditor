@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="{$Think.const.RESOURCE_URL}images/favicon.png" type="image/png">
+
+  <title>Bracket Responsive Bootstrap3 Admin</title>
+
+  <link rel="stylesheet" href="{$Think.const.RESOURCE_URL}css/style.default.css" rel="stylesheet">
+  <link rel="stylesheet" href="{$Think.const.RESOURCE_URL}css/bootstrap-fileupload.min.css" />
+  <link rel="stylesheet" href="{$Think.const.RESOURCE_URL}css/bootstrap-datetimepicker.min.css" />
+  <link rel="stylesheet" href="{$Think.const.RESOURCE_URL}css/jquery.tagsinput.css" />
+  <link rel="stylesheet" href="{$Think.const.RESOURCE_URL}css/colorpicker.css" />
+  <link rel="stylesheet" href="{$Think.const.RESOURCE_URL}css/dropzone.css" />
+  <link rel="stylesheet" href="{$Think.const.RESOURCE_URL}css/jquery.datatables.css" rel="stylesheet">
+<include file="Common/common_js" />
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="{$Think.const.RESOURCE_URL}js/html5shiv.js"></script>
+  <script src="{$Think.const.RESOURCE_URL}js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body style="overflow: visible;">
+<section>
+<include file="Common/sidebar" />
+<div class="mainpanel">
+	<include file="Common/headbar" />
+	<div class="contentpanel">
+		<div class="row">
+        <div class="col-md-11">
+          <div class="panel panel-info">
+            <div class="panel-heading">              
+              <h3 class="panel-title">玩家等级分布</h3>
+            </div>
+          </div><!-- panel -->
+        </div><!-- col-md-11 -->
+        <notempty name="list">
+        <div class="col-md-5 mb30">		    
+  		    <div id="piechart" style="width: 100%;"></div>
+		    </div><!-- col-md-6 -->
+        </notempty>
+        <div class="col-md-6 mb30">       
+          <div id="column" style="width: 100%; height: 400px"></div>
+        </div><!-- col-md-6 -->
+      <div class="col-md-6">
+        <notempty name="list">
+          <div class="table-responsive">
+              <table class="table table-info mb30">
+                  <thead>
+                    <tr>
+                      <th>等级</th>
+                      <th>数量</th>                      
+                      <th>百分比</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <volist name="list" id="item">
+                    <tr>
+                      <td>  {$item.Level}</td>
+                      <td>{$item.count_num}</td>
+                      <td><?php echo number_format(($item['count_num']/$total)*100,2); ?>%</td>                      
+                    </tr>
+                  </volist>
+                  </tbody>
+              </table>
+          </div><!-- table-responsive -->
+          </notempty>
+          <empty name="list">
+          <div class="table-responsive">
+            <center>没有相关数据记录</center>
+          </div>
+          </empty>
+        </div>
+		</div> <!-- end of row -->
+	</div> <!-- end of contentpanel -->
+</div> <!-- end of mainpanel -->
+
+</section>
+
+
+<script src="{$Think.const.RESOURCE_URL}js/modernizr.min.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/jquery.sparkline.min.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/toggles.min.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/retina.min.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/jquery.cookies.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/highcharts/highcharts.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/highcharts/modules/exporting.js"></script>
+
+<script src="{$Think.const.RESOURCE_URL}js/jquery.maskedinput.min.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/jquery.mousewheel.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/custom.js"></script>
+
+<assign name="colors" value="$Think.config.GRAPH_PIE_COLORS" />
+
+<script>
+jQuery(document).ready(function(){
+	// Chosen Select
+    <notempty name="list">
+     $('#piechart').highcharts({
+        credits: {
+         enabled : false
+        },
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: 1,//null,
+            plotShadow: false
+        },
+        title: {
+            text: '玩家等级分布'
+        },
+        tooltip: {
+          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: '玩家等级分布',
+            data: [
+              <volist name="list" id="item">  
+                ['{$item.Level}级',   {$item.count_num}],
+              </volist>
+            ]
+        }]
+    });
+/***** PIE CHART *****/   
+    </notempty>
+   
+    $('#column').highcharts({
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: '玩家等级分布'
+                },
+                xAxis: {
+                    categories:<?php echo json_encode(array_keys($levelArea)); ?>,
+                },
+                yAxis: {
+                    title: {
+                        text: '等级区域人数'
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}'
+                        }
+                    }
+                },
+
+                tooltip: {
+                    //headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<b>{point.y}</b>人<br/>',
+                    shared: true
+                }, 
+
+                series: [{
+                  name:"人数",
+                  data:<?php echo json_encode(array_values($levelArea)); ?>,
+                }],
+                
+            })
+});
+</script>
+</body>
+</html>

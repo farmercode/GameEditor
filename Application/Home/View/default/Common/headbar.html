@@ -1,0 +1,26 @@
+<div class="headerbar">
+      <!-- <a class="menutoggle"><i class="fa fa-bars"></i></a> -->
+      <div class="header_left" style="min-width: 450px;">
+      <form class="form-inline" action="" method="post">
+                 
+      </form>
+      </div>
+
+      <div class="header-right">
+        <ul class="headermenu">        
+          <li>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <img src="{$Think.const.RESOURCE_URL}images/photos/loggeduser.png" alt="" />
+                {$Think.session.user_info.real_name}
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                <li><a href="{:U("Index/logout")}"><i class="glyphicon glyphicon-log-out"></i> 注销</a></li>
+              </ul>
+            </div>
+          </li>          
+        </ul>
+      </div><!-- header-right -->
+      
+    </div><!-- headerbar -->

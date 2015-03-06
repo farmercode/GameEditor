@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="{$Think.const.RESOURCE_URL}images/favicon.png" type="image/png">
+
+  <title>Bracket Responsive Bootstrap3 Admin</title>
+
+  <link href="{$Think.const.RESOURCE_URL}css/style.default.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="{$Think.const.RESOURCE_URL}css/bootstrap-fileupload.min.css" />
+  <link rel="stylesheet" href="{$Think.const.RESOURCE_URL}css/bootstrap-timepicker.min.css" />
+  <link rel="stylesheet" href="{$Think.const.RESOURCE_URL}css/jquery.tagsinput.css" />
+  <link rel="stylesheet" href="{$Think.const.RESOURCE_URL}css/colorpicker.css" />
+  <link rel="stylesheet" href="{$Think.const.RESOURCE_URL}css/dropzone.css" />
+<include file="Common/common_js" />
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="{$Think.const.RESOURCE_URL}js/html5shiv.js"></script>
+  <script src="{$Think.const.RESOURCE_URL}js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+
+<section>
+
+<include file="Common/sidebar" />
+
+<div class="mainpanel">
+<include file="Common/headbar" />
+<div class="contentpanel">
+<div class="row">
+        <div class="col-sm-12">
+        <div class="panel panel-info">
+        <div class="panel-heading">
+        <div class="panel-btns">
+        <a href="" class="panel-close">&times;</a>
+        <a href="" class="minimize">&minus;</a>
+        </div><!-- panel-btns -->
+        <h3 class="panel-title">用户添加</h3>
+        </div>
+        <div class="panel-body">
+
+        	<form class="form-horizontal form-bordered" method="post" action=""> <!-- form begin -->
+        		     
+        <div class="form-group">
+              <label class="col-sm-3 control-label"><font color="red">* </font>用户账号</label>
+              <div class="col-sm-4">
+                <input type="text" name="username" placeholder="用户账号" title="请输入数字字母下划线" data-toggle="tooltip" data-trigger="hover" class="form-control tooltips" />
+              </div>
+            </div>
+
+        <div class="form-group">
+        <label class="col-sm-3 control-label"><font color="red">* </font>真实名称</label>
+        <div class="col-sm-4">
+        <input type="text" name="truename" placeholder="真实名称" title="用户真实名称" data-toggle="tooltip" data-trigger="hover" class="form-control tooltips" />
+        </div>
+        </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label"><font color="red">* </font>输入密码</label>
+              <div class="col-sm-4">
+                <input type="password" name="userpassword" placeholder="用户账号" class="form-control" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label"><font color="red">* </font>重复密码</label>
+              <div class="col-sm-4">
+                <input type="password" name="userpassword2" placeholder="用户账号" class="form-control" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label"><font color="red">* </font>角色</label>
+              <div class="col-sm-4">
+                <select name="role" class="form-control chosen-select" data-placeholder="选择一个角色...">
+                <volist name="roleList" id="role">				                 
+                  <option value="{$role.role_id}">{$role.role_name}</option>
+                </volist>				                  			                  
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">游戏平台</label>
+              <div class="col-sm-6">
+              	<select name="game_platform[]" class="chosen-select" multiple data-placeholder="游戏平台....">
+                <!-- <select name="game_platform" multiple class="chosen-select" data-placeholder="" > -->
+                  <volist name="platforms" id="platform">
+                  <option value="{$platform.SiteCode}">{$platform.SiteName}</option>
+                  </volist>                  
+                </select>
+              </div>
+            </div>
+
+                    <div class="form-group">
+                      <label class="col-sm-3 control-label">Email</label>
+                      <div class="col-sm-4">
+                        <input type="text" name="email" placeholder="邮箱" class="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-sm-3 control-label">电话</label>
+                      <div class="col-sm-4">
+                        <input type="text" name="phone" placeholder="电话" class="form-control" />
+                      </div>
+                    </div>
+							
+							<div class="panel-footer" style="text-align: center;">
+				              <button class="btn btn-primary">添加</button>
+				            </div>
+				    	</form> <!-- form end -->			     
+				    </div>
+				</div><!-- panel -->
+			</div><!-- col-sm-6 -->
+		</div> <!-- end of row -->
+	</div> <!-- end of contentpanel -->
+</div> <!-- end of mainpanel -->
+
+</section>
+
+
+
+<script src="{$Think.const.RESOURCE_URL}js/modernizr.min.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/jquery.sparkline.min.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/toggles.min.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/retina.min.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/jquery.cookies.js"></script>
+
+<script src="{$Think.const.RESOURCE_URL}js/holder.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/morris.min.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/raphael-2.1.0.min.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/jquery.autogrow-textarea.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/bootstrap-fileupload.min.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/bootstrap-timepicker.min.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/jquery.maskedinput.min.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/jquery.tagsinput.min.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/jquery.mousewheel.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/dropzone.min.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/colorpicker.js"></script>
+<script src="{$Think.const.RESOURCE_URL}js/custom.js"></script>
+<script>
+jQuery(document).ready(function(){
+	// Chosen Select
+    jQuery(".chosen-select").chosen({'width':'100%','white-space':'nowrap'});
+});
+</script>
+</body>
+</html>

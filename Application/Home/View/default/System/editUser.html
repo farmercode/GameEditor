@@ -1,0 +1,76 @@
+<div class="panel panel-dark panel-alt">
+    <div class="panel-heading">
+        <div class="panel-btns">
+            <a class="panel-close" data-dismiss="modal" aria-hidden="true">&times;</a>
+        </div><!-- panel-btns -->
+        <h3 class="panel-title">编辑用户</h3>       
+    </div>
+    <div class="panel-body">
+    <empty name="userInfo">
+    <p>用户不存在</p>
+    <else />    
+    	<form class="form-horizontal form-bordered" method="post" action="{:U("System/editUser")}"> <!-- form begin -->
+			<input type="hidden" name="userId" value="{$userInfo.user_id}" />			     
+           <div class="form-group">
+              <label class="col-sm-3 control-label"><font color="red">* </font>用户账号</label>
+              <div class="col-sm-4">
+                <input type="text" name="username" placeholder="用户账号" title="请输入数字字母下划线" data-toggle="tooltip" data-trigger="hover" class="form-control tooltips" value="{$userInfo.user_name}" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label"><font color="red">* </font>真实名称</label>
+              <div class="col-sm-4">
+                <input type="text" name="truename" placeholder="真实名称" title="用户真实名称" data-toggle="tooltip" data-trigger="hover" class="form-control tooltips" value="{$userInfo.real_name}"/>
+              </div>
+            </div>
+		        
+            <div class="form-group">
+              <label class="col-sm-3 control-label"><font color="red">* </font>角色</label>
+              <div class="col-sm-4">
+                <select name="role" class="form-control chosen-select" data-placeholder="选择一个角色...">               
+                <volist name="roleList" id="role">				                 
+                  <option value="{$role.role_id}" <if condition="$role['role_id'] eq $userInfo['role_id']">selected</if>>{$role.role_name}</option>
+                </volist>				                  			                  
+                </select>
+              </div>
+            </div>				            
+			<?php $userPlatform = explode(',', $userInfo["game_platform"]); ?>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">游戏平台</label>
+              <div class="col-sm-8">
+              	<select name="game_platform[]" class="chosen-select" multiple data-placeholder="游戏平台....">
+                   <volist name="platforms" id="platform">
+                  <option value="{$platform.SiteCode}"  <if condition="in_array($platform['SiteCode'],$userPlatform)">selected</if>>{$platform.SiteName}</option>
+                  </volist>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Email</label>
+              <div class="col-sm-4">
+                <input type="text" name="email" placeholder="邮箱" class="form-control" value="{$userInfo.email}"/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">电话</label>
+              <div class="col-sm-4">
+                <input type="text" name="phone" placeholder="电话" class="form-control" value="{$userInfo.phone}" />
+              </div>
+            </div>
+					
+			<div class="panel-footer" style="text-align: center;">
+              <button class="btn btn-primary">编辑</button>
+            </div>
+		</form> <!-- form end -->
+		</empty>
+    </div>
+</div>
+<script>
+jQuery(document).ready(function(){
+	// Chosen Select
+    jQuery(".chosen-select").chosen({'width':'100%','white-space':'nowrap'});
+});
+</script>
