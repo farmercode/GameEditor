@@ -1,12 +1,3 @@
-<style type="text/css">
-    a .chosen-single{overflow: visible;}
-    .lootview{position: fixed;top: 20px;width: 100%;height: 100%;background-color: white;
-z-index: 999999;}
-.view_body{width:100%;height: 85%;overflow: scroll;float: left;}
-.view_search{position: absolute;bottom: 0px; }
-.single_loot{float: left;margin:2px 5px;}
-.single_loot img{width: 48px;height: 48px;}
-</style>
 <div class="panel panel-dark panel-alt">
     <div class="panel-heading">
         <div class="panel-btns">
@@ -40,24 +31,43 @@ z-index: 999999;}
 
             <div class="form-group">
                 <label class="col-sm-3 control-label">掉落物品</label>
+                <div class="row">
                 <div class="input-group">
                     <span class="input-group-addon new_add_line"><i class="glyphicon glyphicon-plus my_cursor"></i></span>
-                    <div class="row">
-                            <div class="col-sm-4">
+                    <div class="row">                            
+                            <div class="col-sm-3">
                             <select class="form-control mb15" name="mail_add[type][]" onchange="drawLootView(this)">
                               <foreach name="LootTypes" item="t" key="typeid" >
                                 <option value="{$typeid}">{$t}</option>
                               </foreach>
                             </select>                            
                              </div>
-                          <div class="col-sm-5">
-                            <input type="text" placeholder="物品ID" class="form-control" name="mail_add[ID][]">   
+                          <div class="col-sm-4">
+                            <input type="text" placeholder="物品ID" class="form-control ipt-lootid" name="loot_add[ID][]">   
+                          </div>
+                          <div class="col-sm-4">
+                            <input type="text" placeholder="物品名称" class="form-control ipt-lootname" name="loot_add[lootname][]">
+                          </div>                          
+                    </div>
+                </div>
+                 <div class="row row2">
+                            <div class="col-sm-3">
+                            <input type="text" placeholder="数量" class="form-control" name="loot_add[count][]">
+                          </div> 
+                          <div class="col-sm-2">
+                            <input type="text" placeholder="最小值" class="form-control" name="loot_add[count][]">
+                          </div>   
+                          <div class="col-sm-2">
+                            <input type="text" placeholder="最大值" class="form-control" name="loot_add[count][]">
                           </div>
                           <div class="col-sm-2">
-                            <input type="text" placeholder="数量" class="form-control" name="mail_add[count][]">
-                          </div>
-                    </div>
-                </div>             
+                            <input type="text" placeholder="是否独立" class="form-control" name="loot_add[count][]">
+                          </div>     
+                          <div class="col-sm-2">
+                            <input type="text" placeholder="概率" class="form-control" name="loot_add[count][]">
+                          </div>                  
+                </div> 
+                </div> <!-- end of row -->            
             </div>  
             
             <div class="panel-footer" style="text-align: center;">
@@ -69,43 +79,75 @@ z-index: 999999;}
 
 
 <div class="tpl" style="display: none;">
-    <div class="input-group col-sm-9 add_line">
+<div class="row add_line">
+    <div class="input-group col-sm-12">
                 <span class="input-group-addon del_new_line"><i class="glyphicon glyphicon-minus my_cursor"></i></span>
-                <div class="row">
-                    <div class="col-sm-4">
-                     <select class="form-control mb15" name="mail_add[type][]">
-                          <foreach name="lootTypes" item="t" key="typeid">
-                            <option value="{$typeid}">{$t}</option>
-                          </foreach>
-                    </select>                    
-                     </div>
-                  <div class="col-sm-2">
-                    <input type="text" placeholder="物品ID" class="form-control" name="mail_add[ID][]">
-                  </div>
-                  <div class="col-sm-2">
-                    <input type="text" placeholder="数量" class="form-control" name="mail_add[count][]">
-                  </div>
+                <div class="row">                            
+                            <div class="col-sm-3">
+                            <select class="form-control mb15" name="mail_add[type][]" onchange="drawLootView(this)">
+                              <foreach name="LootTypes" item="t" key="typeid" >
+                                <option value="{$typeid}">{$t}</option>
+                              </foreach>
+                            </select>                            
+                             </div>
+                          <div class="col-sm-4">
+                            <input type="text" placeholder="物品ID" class="form-control ipt-lootid" name="loot_add[ID][]">   
+                          </div>
+                          <div class="col-sm-4">
+                            <input type="text" placeholder="物品名称" class="form-control ipt-lootname" name="loot_add[lootname][]">
+                          </div>                          
+                    </div>
                 </div>
-</div>
+                 <div class="row row3">
+                            <div class="col-sm-3">
+                            <input type="text" placeholder="数量" class="form-control" name="loot_add[count][]">
+                          </div> 
+                          <div class="col-sm-2">
+                            <input type="text" placeholder="最小值" class="form-control" name="loot_add[count][]">
+                          </div>   
+                          <div class="col-sm-2">
+                            <input type="text" placeholder="最大值" class="form-control" name="loot_add[count][]">
+                          </div>
+                          <div class="col-sm-2">
+                            <input type="text" placeholder="是否独立" class="form-control" name="loot_add[count][]">
+                          </div>     
+                          <div class="col-sm-2">
+                            <input type="text" placeholder="概率" class="form-control" name="loot_add[count][]">
+                          </div>                  
+                </div> 
+
+</div> <!-- end of row -->
 </div>
 
-<div class="lootview">
-  <div class="view_body"></div>
-  <div class="view_search"></div>
-</div>
+
 <script type="text/javascript" src="{:(U('Js/loots'))}"></script>
 <script type="text/javascript">
+var StartObj = null;
+function initLootView(){
+  var _lootView = $(".lootview");
+  _lootView.find(".view_body").html("");
+  _lootView.css("display","block");
+}
+
 function drawLootView(obj){
-  console.log($(obj).val());
+  initLootView();
+  StartObj = $(obj);
   var loot_type = 4;
   var loot_list = Loots[loot_type];
   var _view_body = $(".view_body");
   for (var index in loot_list){
     var _loot_html = "";
     var _loot_base = loot_list[index];
-    _loot_html = "<div class='single_loot'><img src='"+_loot_base.img+"' title='"+_loot_base.name+"'/></div>";
+    _loot_html = "<div class='single_loot' onclick='selectLoot(\""+_loot_base.id+"\",\""+_loot_base.name+"\")'><img src='"+_loot_base.img+"' title='"+_loot_base.name+"'/></div>";
     _view_body.append(_loot_html);
   }
+}
+
+function selectLoot(lootID,lootName){
+    $(".lootview").css("display","none");
+    var rowObj = StartObj.closest(".row");
+    rowObj.find(".ipt-lootid").val(lootID);
+    rowObj.find(".ipt-lootname").val(lootName);
 }
 </script>
 
@@ -135,7 +177,7 @@ jQuery(document).ready(function(){
         var _html=$(".tpl").html();
         var _form_group = $(this).closest('.form-group');
         var _len = _form_group.find('.add_line').length;
-        if(_len<4){
+        if(_len<18){
             _form_group.append(_html);
             $(".del_new_line").unbind('click', del_new_line);
             $(".del_new_line").bind('click',del_new_line);
@@ -148,5 +190,7 @@ jQuery(document).ready(function(){
         _line.remove();
    }
 
+
+   //drawLootView();
 });
 </script>
