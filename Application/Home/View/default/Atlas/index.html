@@ -43,8 +43,9 @@
               <h3 class="panel-title">地图掉落</h3>
             </div>
             <div class="panel-body">
-               <a class="btn btn-warning" href="{:U("Atlas/atlasLootAdd")}" data-toggle="modal" data-target=".bs-example-modal-panel">添加地图</a>
-               <a class="btn btn-pink" href="{:U("Atlas/excelImport")}" data-toggle="modal" data-target=".bs-example-modal-panel">导入地图</a>
+               <a class="btn btn-warning" href="{:U("Atlas/atlasLootAdd")}" data-toggle="modal" data-target=".bs-example-modal-panel">添加掉落组</a>
+               <a class="btn btn-pink" href="{:U("Atlas/excelImport")}" data-toggle="modal" data-target=".bs-example-modal-panel">导入掉落组</a>
+               <a class="btn btn-white" href="{:U("Atlas/exportToExcel")}" style="float: right;">导出掉落组</a>
             </div>
           </div><!-- panel -->
         </div><!-- col-sm-6 -->
@@ -53,21 +54,21 @@
             <div class="table-responsive">
                 <table class="table table-info mb30">
                     <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>物品ID</th>
-                        <th>物品名称</th>
-                        <th>类型</th>                        
+                      <tr>                        
+                        <th>掉落组ID</th>
+                        <th>掉落组名称</th>
+                        <th>掉落组数量</th>
+                        <th>内容</th>                        
                         <th>操作</th>                       
                       </tr>
                     </thead>
                     <tbody>
                     <volist name="list" id="loot" key="k">
                       <tr>
-                        <td><img src="{$loot.img_info}" class="small_head"/></td>
-                        <td>{$loot.loot_id}</td>
-                        <td class="loot_name">{$loot.loot_name}</td>                         
-                        <td><php>echo $LootTypes[$loot["loot_type"]];</php></td>
+                        <td>{$loot.atlasloot_id}</td>
+                        <td>{$loot.atlasloot_name}</td>
+                        <td class="loot_name">{$loot.atlasloot_num}</td>                         
+                        <td>{$loot.content}</td>
                         <td>
                         <a class="btn btn-lightblue small_btn" data-toggle="modal" data-target=".bs-example-modal-panel" href="{:U("Loot/lootEdit",array('aid'=>$loot['auto_id']))}">编辑</a>
                             <a class="btn btn-danger small_btn del_action" href="{:U("Loot/lootDel",array('auto_id'=>$loot['auto_id']))}">删除</a>

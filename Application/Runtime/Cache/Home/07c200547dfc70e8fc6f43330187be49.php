@@ -1,4 +1,4 @@
-<div class="panel panel-dark panel-alt">
+<?php if (!defined('THINK_PATH')) exit();?><div class="panel panel-dark panel-alt">
     <div class="panel-heading">
         <div class="panel-btns">
             <a class="panel-close" data-dismiss="modal" aria-hidden="true">&times;</a>
@@ -6,7 +6,7 @@
         <h3 class="panel-title">添加掉落组</h3>       
     </div>
     <div class="panel-body">
-        <form class="form-horizontal form-bordered" method="post" action="{:U("Atlas/doAtlasLootAdd")}"> 
+        <form class="form-horizontal form-bordered" method="post" action="<?php echo U("Atlas/doAtlasLootAdd");?>"> 
         <!-- form begin -->                                      
             <div class="form-group">
                 <label class="col-sm-3 control-label"><font color="red">* </font>掉落组ID</label>
@@ -37,9 +37,7 @@
                     <div class="row">                            
                             <div class="col-sm-3">
                             <select class="form-control mb15" name="loot_add[type][]" onchange="drawLootView(this)">
-                              <foreach name="LootTypes" item="t" key="typeid" >
-                                <option value="{$typeid}">{$t}</option>
-                              </foreach>
+                              <?php if(is_array($LootTypes)): foreach($LootTypes as $typeid=>$t): ?><option value="<?php echo ($typeid); ?>"><?php echo ($t); ?></option><?php endforeach; endif; ?>
                             </select>                            
                              </div>
                           <div class="col-sm-3">
@@ -89,9 +87,7 @@
                 <div class="row">                            
                             <div class="col-sm-3">
                             <select class="form-control mb15" name="loot_add[type][]" onchange="drawLootView(this)">
-                              <foreach name="LootTypes" item="t" key="typeid" >
-                                <option value="{$typeid}">{$t}</option>
-                              </foreach>
+                              <?php if(is_array($LootTypes)): foreach($LootTypes as $typeid=>$t): ?><option value="<?php echo ($typeid); ?>"><?php echo ($t); ?></option><?php endforeach; endif; ?>
                             </select>                            
                              </div>
                           <div class="col-sm-3">
@@ -127,7 +123,7 @@
 </div>
 
 
-<script type="text/javascript" src="{:(U('Js/loots'))}"></script>
+<script type="text/javascript" src="<?php echo (U('Js/loots'));?>"></script>
 <script type="text/javascript">
 var StartObj = null;
 function initLootView(){

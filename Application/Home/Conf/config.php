@@ -15,6 +15,6 @@ return array(
 
         'GAME_CODE' => 'sg',
         "CARD_HEADPORTRAIT_URL"     => "/Public/headportrait/",  //卡牌图片的URL路径     
-        "EQUIPICON_URL" => "/Public/EquipIcon/", //装备图片存放URL路径
+        "EQUIPICON_URL" => "/Public/EquipIcon/",        //装备图片存放URL路径
         "PROP_IMG_URL"  => "/Public/Prop/",
 );
