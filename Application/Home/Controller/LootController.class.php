@@ -73,6 +73,8 @@ class LootController extends Controller{
                 $this->display();
         }
 
+        
+        
         /**
          * 导入Excel数据到数据表
          */

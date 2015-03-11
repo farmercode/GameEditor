@@ -66,6 +66,65 @@ class AtlasController extends Controller{
                 return $data;
         }
 
+        function improtFromExcel(){
+                $this->display();
+        }
+
+        function doImportFromExcel(){
+                $rootPath = ROOT_PATH."/data/upload/excel/";
+                $upload = new \Think\Upload();
+                $upload->exts      =     array('xls','xlsx');
+                $upload->rootPath = $rootPath;
+                //$upload->savePath = ROOT_PATH."/data/upload/excel/";
+                $upload->autoSub  = true;
+                $upload->subName  = array('date','Ymd');
+                $info   =   $upload->upload();
+                if(!$info) {// 上传错误提示错误信息
+                        $this->error($upload->getError());
+                        exit();
+                }
+                $filePath = $rootPath.$info['excel']['savepath'].$info['excel']['savename'];
+                
+                vendor("Excel.PHPExcel");
+                $PHPReader = new \PHPExcel_Reader_Excel5();  
+                if(!$PHPReader->canRead($filePath)){         
+                        echo 'no Excel';  
+                         return ;   
+                }  
+                $PHPExcel = $PHPReader->load($filePath);
+                $activeSheet = $PHPExcel->getSheet();
+                $importData = $activeSheet->toArray();
+                
+                /*添加到数据库*/
+                //print_r($importData);
+                unset($importData[0]);
+                unset($importData[1]);
+                unset($importData[2]);
+                $data = array();
+                $doInsert = false;
+                $index = 0;
+                foreach ($importData as $key => $value) {
+                        if(empty($value[0])) break;
+                        $doInsert = true;
+                        $data[$index]['atlasloot_id'] = $value[0];
+                        $data[$index]['atlasloot_num'] = $value[1];
+                        $data[$index]['content'] = $value[2];
+                        $data[$index]['atlasloot_name'] = $value[3];
+                        $data[$index]['data'] = $this->_contentToJson($value[2]);
+                        $index++;
+                }
+                
+                if($doInsert){
+                        $model = D("Atlasloot");
+                        $result = $model->addAll($data);                
+                }
+                unlink($filePath);
+                redirect(U("Atlas/doImportFromExcel"));
+        }
+
+        /**
+         * excel导出
+         */
         function exportToExcel(){
                 vendor("Excel.PHPExcel");
                 $model = D("Atlasloot");
@@ -107,5 +166,23 @@ class AtlasController extends Controller{
                 header('Pragma: no-cache');
                 header('Expires: 0');
                 $objWriter->save("php://output");
+        }
+
+        private function _contentToJson($str){
+                $tmp1 = explode("|",$str);
+                $json_data = array();
+                $index=0;
+                foreach ($tmp1 as $key => $value) {
+                        $tmp2 = explode(",",$value);
+                        $json_data[$index]["loot_id"] = $tmp2[0];
+                        $json_data[$index]["lvl"] = $tmp2[1];
+                        $json_data[$index]["type"] = $tmp2[2];
+                        $json_data[$index]["min"] = $tmp2[3];
+                        $json_data[$index]["max"] = $tmp2[4];
+                        $json_data[$index]["is_alone"] = $tmp2[5];
+                        $json_data[$index]["probability"] = $tmp2[6];
+                        $index++;
+                }
+                return json_encode($json_data);
         }
 }
