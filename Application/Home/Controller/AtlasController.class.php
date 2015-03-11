@@ -67,9 +67,45 @@ class AtlasController extends Controller{
         }
 
         function exportToExcel(){
+                vendor("Excel.PHPExcel");
                 $model = D("Atlasloot");
                 $list = $model->getAtlasLootList();
+                //print_r($list);
+                
+                /*格式化数据*/
+                $index=0;
+                $data[$index] = C("EXPORT_EXCEL_HEADER1");
+                $index++;
+                $data[++$index] = array();
+                $data[++$index] = array();
+                foreach ($list as $key => $value) {
+                        $loot_tmp = json_decode($value["data"],true);
+                       $data[$index][] = $value["atlasloot_id"];
+                       $data[$index][] = $value["atlasloot_num"];
+                       $data[$index][] = $value["content"];
+                       $data[$index][] = $value["atlasloot_name"];
+                       $data[$index][] = null;
+                       $data[$index][] = null;
+                       foreach ($loot_tmp as $v) {
+                               foreach ($v as $v1) {
+                                       $data[$index][] = $v1;
+                               }
+                       }
+                       $index++;
+                }
+                // print_r($data);
+                // exit();
 
-                print_r($list);
+                $phpexcel = new \PHPExcel();
+                //$activeSheetIndex = $phpexcel->getActiveSheetIndex();
+                $activeSHeet = $phpexcel->getActiveSheet();
+                $activeSHeet->fromArray($data,null,"A1",true);
+
+                $objWriter = \PHPExcel_IOFactory::createWriter($phpexcel, 'Excel5');
+                header('Content-Type: application/vnd.ms-excel');
+                header('Content-Disposition: attachment; filename=game_config.xls');
+                header('Pragma: no-cache');
+                header('Expires: 0');
+                $objWriter->save("php://output");
         }
 }
