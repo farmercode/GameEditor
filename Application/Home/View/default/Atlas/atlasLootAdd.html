@@ -94,10 +94,7 @@
 
                     </div>
                 </div>
-                 <div class="row row2">
-                            <div class="col-sm-3">
-                            <input type="text" placeholder="数量" class="form-control" name="loot_add[count][]" value="1">
-                          </div> 
+                 <div class="row row2">                            
                           <div class="col-sm-2">
                             <input type="text" placeholder="最小值" class="form-control" name="loot_add[min_num][]" value="1">
                           </div>   
@@ -106,20 +103,20 @@
                           </div>
                           <div class="col-sm-2">
                             <select class="form-control mb15 prob_is_alone" name="loot_add[is_alone][]" onchange="is_alone_change(this)">
-                            <option value="0">不独立</option>
+                            <option value="0">非独立</option>
                             <option value="1">独立</option>
                             </select>                            
                           </div>     
                           <div class="col-sm-2">
                             <input type="text" placeholder="概率" class="form-control ipt-prob unalone-ipt" name="loot_add[probability][]" value="10" onchange="compute_prob()">
                           </div>     
-                          <div class="col-sm-1 probability">概率:100%</div>             
+                          <div class="col-sm-2 probability">概率:100%</div>             
                 </div> 
                 </div> <!-- end of row -->            
             </div>  
             
             <div class="panel-footer" style="text-align: center;">
-              <button class="btn btn-info">添加地图</button>
+              <button class="btn btn-info">添加掉落组</button>
             </div>
         </form> <!-- form end -->
     </div>
@@ -150,10 +147,7 @@
                           </div>                      
                     </div>
                 </div>
-                 <div class="row row3">
-                            <div class="col-sm-3">
-                            <input type="text" placeholder="数量" class="form-control" name="loot_add[count][]" value="1">
-                          </div> 
+                 <div class="row row3">                            
                           <div class="col-sm-2">
                             <input type="text" placeholder="最小值" class="form-control" name="loot_add[min_num][]" value="1">
                           </div>   
@@ -162,14 +156,14 @@
                           </div>
                           <div class="col-sm-2">
                             <select class="form-control mb15 prob_is_alone" name="loot_add[is_alone][]" onchange="is_alone_change(this)">
-                            <option value="0">不独立</option>
+                            <option value="0">非独立</option>
                             <option value="1">独立</option>
                             </select>                            
                           </div>     
                           <div class="col-sm-2">
                             <input type="text" placeholder="概率" class="form-control ipt-prob unalone-ipt" name="loot_add[probability][]" value="10" onchange="compute_prob()">
                           </div>     
-                          <div class="col-sm-1 probability">概率:100%</div>       
+                          <div class="col-sm-2 probability">概率:100%</div>       
                 </div> 
 
 </div> <!-- end of row -->

@@ -66,12 +66,12 @@
                     <volist name="list" id="loot" key="k">
                       <tr>
                         <td>{$loot.atlasloot_id}</td>
-                        <td>{$loot.atlasloot_name}</td>
-                        <td class="loot_name">{$loot.atlasloot_num}</td>                         
+                        <td class="loot_name">{$loot.atlasloot_name}</td>
+                        <td >{$loot.atlasloot_num}</td>                         
                         <td>{$loot.content}</td>
                         <td>
-                        <a class="btn btn-lightblue small_btn" data-toggle="modal" data-target=".bs-example-modal-panel" href="{:U("Loot/lootEdit",array('aid'=>$loot['auto_id']))}">编辑</a>
-                            <a class="btn btn-danger small_btn del_action" href="{:U("Loot/lootDel",array('auto_id'=>$loot['auto_id']))}">删除</a>
+                        <a class="btn btn-lightblue small_btn" href="{:U("Atlas/atlasLootEdit",array('aid'=>$loot['a_id']))}">编辑</a>
+                            <a class="btn btn-danger small_btn del_action" href="{:U("Atlas/atlasLootDel",array('aid'=>$loot['a_id']))}">删除</a>
                         </td>
                       </tr>
                     </volist>                      

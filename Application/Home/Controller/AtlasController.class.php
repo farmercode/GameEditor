@@ -23,6 +23,9 @@ class AtlasController extends Controller{
                 $this->display();
         }
 
+        /**
+         * 处理添加掉落组
+         */
         function doAtlasLootAdd(){
                 if(IS_POST){
                         $model = M("Atlasloot");
@@ -40,6 +43,51 @@ class AtlasController extends Controller{
                                 redirect(U("Atlas/index"));
                         }
                 }
+        }
+
+        /**
+         * 编辑掉落组视图
+         */
+        function atlasLootEdit(){
+                $model = M("Atlasloot");
+                $aid = I("aid");
+                $atlasInfo = $model->find($aid);
+                
+                $atlasInfo['d'] = json_decode($atlasInfo['data'],true);
+                $lootTypes = C("LOOTTYPES");
+                $this->assign("LootTypes",$lootTypes);
+                $this->assign("info",$atlasInfo);
+                $this->display();
+        }
+
+        /**
+         * 提交编辑掉落组
+         */
+        function doAtlasLootEdit(){
+                if(IS_POST){
+                        $model = M("Atlasloot");
+                        $lootInfo = $this->_getLootInfo();
+                        $data['atlasloot_id'] = I("AtlasLootID");
+                        $data['atlasloot_name'] = I("AtlasLootName");
+                        $data['atlasloot_num'] = I("AtlasLootNun");
+                        $data['content'] = $lootInfo['config_str'];
+                        $data['data'] = $lootInfo['config_json'];
+                        $conditon['a_id'] = I("aid");
+                        $a_id = $model->where($conditon)->save($data);
+                        if(!$a_id){
+                                $msg = $model->getDbError();
+                                redirect(U("Atlas/index"),3,$msg);
+                        }else{
+                                redirect(U("Atlas/index"));
+                        }
+                }
+        }
+
+        function atlasLootDel(){
+                 $model = M("Atlasloot");
+                  $conditon['a_id'] = I("aid");
+                  $a_id = $model->where($conditon)->delete();
+                  redirect(U("Atlas/index"));
         }
 
         /**
@@ -162,9 +210,7 @@ class AtlasController extends Controller{
                                }
                        }
                        $index++;
-                }
-                // print_r($data);
-                // exit();
+                }                
 
                 $phpexcel = new \PHPExcel();
                 //$activeSheetIndex = $phpexcel->getActiveSheetIndex();
