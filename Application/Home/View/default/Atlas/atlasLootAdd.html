@@ -1,3 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="shortcut icon" href="{$Think.const.RESOURCE_URL}images/favicon.png" type="image/png">
+<title>Bracket Responsive Bootstrap3 Admin</title>
+<link rel="stylesheet" href="{$Think.const.RESOURCE_URL}css/style.default.css" rel="stylesheet">
+<link rel="stylesheet" href="{$Think.const.RESOURCE_URL}css/bootstrap-fileupload.min.css" />
+<link rel="stylesheet" href="{$Think.const.RESOURCE_URL}css/bootstrap-timepicker.min.css" />
+<link rel="stylesheet" href="{$Think.const.RESOURCE_URL}css/jquery.tagsinput.css" />
+<link rel="stylesheet" href="{$Think.const.RESOURCE_URL}css/colorpicker.css" />
+<link rel="stylesheet" href="{$Think.const.RESOURCE_URL}css/dropzone.css" />
+<link rel="stylesheet" href="{$Think.const.RESOURCE_URL}css/jquery.datatables.css" rel="stylesheet">
+<link rel="stylesheet" href="{$Think.const.RESOURCE_URL}css/my_style.css" rel="stylesheet">
+<include file="Common/common_js" />
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="{$Think.const.RESOURCE_URL}js/html5shiv.js"></script>
+  <script src="{$Think.const.RESOURCE_URL}js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body style="overflow: visible;">
+
+<section>
+
+<include file="Common/sidebar" />
+
+<div class="mainpanel">
+
+        <include file="Common/headbar" />
+
+<div class="contentpanel">
+      <div class="col-md-12">          
+        <div class="row">
+
 <div class="panel panel-dark panel-alt">
     <div class="panel-heading">
         <div class="panel-btns">
@@ -37,6 +76,7 @@
                     <div class="row">                            
                             <div class="col-sm-3">
                             <select class="form-control mb15" name="loot_add[type][]" onchange="drawLootView(this)">
+                                <option value="0">未选择</option>
                               <foreach name="LootTypes" item="t" key="typeid" >
                                 <option value="{$typeid}">{$t}</option>
                               </foreach>
@@ -65,11 +105,15 @@
                             <input type="text" placeholder="最大值" class="form-control" name="loot_add[max_num][]" value="10">
                           </div>
                           <div class="col-sm-2">
-                            <input type="text" placeholder="是否独立" class="form-control" name="loot_add[is_alone][]" value="1">
+                            <select class="form-control mb15 prob_is_alone" name="loot_add[is_alone][]" onchange="is_alone_change(this)">
+                            <option value="0">不独立</option>
+                            <option value="1">独立</option>
+                            </select>                            
                           </div>     
                           <div class="col-sm-2">
-                            <input type="text" placeholder="概率" class="form-control" name="loot_add[probability][]" value="10">
-                          </div>                  
+                            <input type="text" placeholder="概率" class="form-control ipt-prob unalone-ipt" name="loot_add[probability][]" value="10" onchange="compute_prob()">
+                          </div>     
+                          <div class="col-sm-1 probability">概率:100%</div>             
                 </div> 
                 </div> <!-- end of row -->            
             </div>  
@@ -89,6 +133,7 @@
                 <div class="row">                            
                             <div class="col-sm-3">
                             <select class="form-control mb15" name="loot_add[type][]" onchange="drawLootView(this)">
+                                <option value="0">未选择</option>
                               <foreach name="LootTypes" item="t" key="typeid" >
                                 <option value="{$typeid}">{$t}</option>
                               </foreach>
@@ -116,16 +161,32 @@
                             <input type="text" placeholder="最大值" class="form-control" name="loot_add[max_num][]" value="10">
                           </div>
                           <div class="col-sm-2">
-                            <input type="text" placeholder="是否独立" class="form-control" name="loot_add[is_alone][]" value="1">
+                            <select class="form-control mb15 prob_is_alone" name="loot_add[is_alone][]" onchange="is_alone_change(this)">
+                            <option value="0">不独立</option>
+                            <option value="1">独立</option>
+                            </select>                            
                           </div>     
                           <div class="col-sm-2">
-                            <input type="text" placeholder="概率" class="form-control" name="loot_add[probability][]" value="10">
-                          </div>            
+                            <input type="text" placeholder="概率" class="form-control ipt-prob unalone-ipt" name="loot_add[probability][]" value="10" onchange="compute_prob()">
+                          </div>     
+                          <div class="col-sm-1 probability">概率:100%</div>       
                 </div> 
 
 </div> <!-- end of row -->
 </div>
 
+  </div> <!-- end of row -->
+        </div> <!-- end of contentpanel -->
+</div> <!-- end of mainpanel -->
+</section>
+
+<div class="lootview" style="display:none;">
+  <div class="view_body"></div>
+  <div style="clear: both;"></div>
+  <div class="view_search">搜索：<input type="text" />
+     <span class="glyphicon glyphicon-remove layout_right layout_right close_loot_select"></span>
+  </div>
+</div>
 
 <script type="text/javascript" src="{:(U('Js/loots'))}"></script>
 <script type="text/javascript">
@@ -139,7 +200,7 @@ function initLootView(){
 function drawLootView(obj){
   initLootView();
   StartObj = $(obj);
-  var loot_type = 4;
+  var loot_type = StartObj.val();
   var loot_list = Loots[loot_type];
   var _view_body = $(".view_body");
   for (var index in loot_list){
@@ -156,13 +217,48 @@ function selectLoot(lootID,lootName){
     rowObj.find(".ipt-lootid").val(lootID);
     rowObj.find(".ipt-lootname").val(lootName);
 }
+
+function is_alone_change(obj){
+    var _this = $(obj);
+    var _is_alone_val = _this.val();
+    var _row = _this.closest(".row");
+    if(_is_alone_val == 1){
+      _row.find(".ipt-prob").removeClass('unalone-ipt');
+    }else{
+      _row.find(".ipt-prob").addClass('unalone-ipt');
+    }
+    compute_prob();
+}
+
+
+/**
+ * 计算各个物品的掉落率
+ */
+function compute_prob(){
+    var _total = 0;
+    $(".form-group .unalone-ipt").each(function(index,dom){
+        _total+=parseInt($(dom).val());
+    });
+
+    $(".form-group .ipt-prob").each(function(_index,_dom){
+        var $_dom = $(_dom);
+        var $_val = parseInt($_dom.val());
+        var _row_obj = $_dom.closest(".row");
+        if($_dom.hasClass('unalone-ipt')){
+          var $_prob = $_val/_total*100;
+          var _html = "概率:"+$_prob.toFixed(0)+"%";
+          _row_obj.find(".probability").html(_html);
+        }else{
+          _row_obj.find(".probability").html("概率独立");
+        }
+        
+    });
+}
+
 </script>
 
 <script>
 jQuery(document).ready(function(){
-
-    jQuery('#autoResizeTA').autogrow();
-
     jQuery(".chose_change").change(function(event) {
         var _val = $(this).val();
         console.log(_val);
@@ -197,7 +293,13 @@ jQuery(document).ready(function(){
         _line.remove();
    }
 
+   jQuery(".close_loot_select").click(function(){
+      $(".lootview").css("display","none");
+   })
+
 
    //drawLootView();
 });
 </script>
+</body>
+</html>

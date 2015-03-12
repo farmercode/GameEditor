@@ -13,6 +13,9 @@ class AtlasController extends Controller{
                 $this->display();
         }
 
+        /**
+         * 添加掉落
+         */
         function atlasLootAdd(){
                 $lootTypes = C("LOOTTYPES");
                 //print_r($lootTypes);
@@ -66,10 +69,16 @@ class AtlasController extends Controller{
                 return $data;
         }
 
+        /**
+         * 导入Excel页面
+         */
         function improtFromExcel(){
                 $this->display();
         }
 
+        /**
+         * 处理导入Excel
+         */
         function doImportFromExcel(){
                 $rootPath = ROOT_PATH."/data/upload/excel/";
                 $upload = new \Think\Upload();
@@ -79,10 +88,12 @@ class AtlasController extends Controller{
                 $upload->autoSub  = true;
                 $upload->subName  = array('date','Ymd');
                 $info   =   $upload->upload();
+
                 if(!$info) {// 上传错误提示错误信息
                         $this->error($upload->getError());
                         exit();
                 }
+
                 $filePath = $rootPath.$info['excel']['savepath'].$info['excel']['savename'];
                 
                 vendor("Excel.PHPExcel");
@@ -119,7 +130,7 @@ class AtlasController extends Controller{
                         $result = $model->addAll($data);                
                 }
                 unlink($filePath);
-                redirect(U("Atlas/doImportFromExcel"));
+                redirect(U("Atlas/index"));
         }
 
         /**
