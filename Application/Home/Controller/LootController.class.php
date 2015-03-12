@@ -73,8 +73,8 @@ class LootController extends Controller{
                 $this->display();
         }
 
-        
-        
+
+
         /**
          * 导入Excel数据到数据表
          */
@@ -101,8 +101,6 @@ class LootController extends Controller{
                 }  
                 $PHPExcel = $PHPReader->load($filePath);
                 $activeSheet = $PHPExcel->getSheet();
-                $allColumn = $activeSheet->getHighestColumn();     
-                $allRow = $activeSheet->getHighestRow();
                 $all = array();
                 $importData = $activeSheet->toArray();
                 unlink($filePath);

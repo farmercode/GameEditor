@@ -83,6 +83,9 @@ class AtlasController extends Controller{
                 }
         }
 
+        /**
+         * 删除掉落组
+         */
         function atlasLootDel(){
                  $model = M("Atlasloot");
                   $conditon['a_id'] = I("aid");
